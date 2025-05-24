@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { GoogleAuthProvider } from 'firebase/auth';
 import useAuth from '../hooks/useAuth';
+import { Car } from 'lucide-react';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -47,11 +48,11 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4 py-20">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8 space-y-6">
+      <div className="w-full max-w-md bg-pink-100 rounded-xl shadow-md p-8 space-y-6">
         <div className="text-center mb-10">
           <div className="flex justify-center mb-4">
             <div className="rounded-full bg-automotive-blue p-3">
-              <Car className="h-10 w-10 text-white" />
+              <Car className="h-12 w-12 text-pink-500" />
             </div>
           </div>
           <h1 className="text-3xl font-bold text-gray-900">Welcome back</h1>

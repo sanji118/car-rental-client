@@ -12,6 +12,10 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import NotFound from '../pages/NotFound';
 
+
+
+
+const cars = () => fetch('http://localhost:5000/cars')
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,7 +26,7 @@ const router = createBrowserRouter([
         element: <Home></Home>
       },
       {
-        path:'/addCar',
+        path:'/addCars',
         element:<PrivateProvider><AddCar/></PrivateProvider>
       },
       {
@@ -35,7 +39,8 @@ const router = createBrowserRouter([
       },
       {
         path: '/cars',
-        element: <AvailableCars></AvailableCars>
+        element: <AvailableCars></AvailableCars>,
+        loader: cars
       },
       {
         path:'/myBooking',
