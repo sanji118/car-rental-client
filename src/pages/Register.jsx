@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../Provider/AuthProvider';
 import { toast } from 'react-toastify';
 import { GoogleAuthProvider, validatePassword } from 'firebase/auth';
+import useAuth from '../hooks/useAuth';
 
 const Register = () => {
-  const {createUser, signInWithGoogle} = useContext(AuthContext);
+  const {createUser, signInWithGoogle} = useAuth();
   const navigate = useNavigate();
 
   const handleRegister = e =>{

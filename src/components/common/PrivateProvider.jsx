@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { AuthContext } from './AuthProvider'
 import { Navigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const PrivateProvider = ({children}) => {
-    const {user, loading} = useContext(AuthContext);
+    const {user, loading} = useAuth()
     if(loading){
         return <span className="loading loading-spinner loading-md"></span>
     }

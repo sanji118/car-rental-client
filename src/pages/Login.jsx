@@ -2,13 +2,13 @@ import { useContext, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../Provider/AuthProvider';
 import { toast } from 'react-toastify';
 import { GoogleAuthProvider } from 'firebase/auth';
+import useAuth from '../hooks/useAuth';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const {signInWithGoogle,signIn} = useContext(AuthContext);
+  const {signInWithGoogle,signIn} = useAuth();
   const navigate = useNavigate();
 
 
