@@ -1,9 +1,61 @@
 import React from 'react'
+import { createBrowserRouter } from 'react-router'
+import MainLayout from '../MainLayout';
+import Home from '../pages/Home';
+import AddCar from '../pages/AddCar';
+import MyCars from '../pages/MyCars';
+import PrivateProvider from '../components/common/PrivateProvider';
+import CarDetails from '../components/car/CarDetails';
+import AvailableCars from '../pages/AvailableCars';
+import MyBookings from '../pages/MyBookings';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
+import NotFound from '../pages/NotFound';
 
-const router = () => {
-  return (
-    <div>router</div>
-  )
-}
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout></MainLayout>,
+    children:[
+      {
+        index: true,
+        element: <Home></Home>
+      },
+      {
+        path:'/addCar',
+        element:<PrivateProvider><AddCar/></PrivateProvider>
+      },
+      {
+        path:'/myCars',
+        element:<PrivateProvider><MyCars/></PrivateProvider>
+      },
+      {
+        path: '/cars/:id',
+        element: <CarDetails></CarDetails>
+      },
+      {
+        path: '/availableCars',
+        element: <AvailableCars></AvailableCars>
+      },
+      {
+        path:'/booking',
+        element: <PrivateProvider><MyBookings></MyBookings></PrivateProvider>
+      },
+      
+    ]
+  },
+  {
+    path: '/login',
+    element: <Login></Login>
+  },
+  {
+    path: '/register',
+    element:<Register></Register>
+  },
+  {
+    path:'*',
+    element: <NotFound></NotFound>
+  }
+]);
 
 export default router
