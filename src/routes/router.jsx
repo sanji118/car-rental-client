@@ -34,11 +34,11 @@ const router = createBrowserRouter([
         element: <CarDetails></CarDetails>
       },
       {
-        path: '/availableCars',
+        path: '/cars',
         element: <AvailableCars></AvailableCars>
       },
       {
-        path:'/booking',
+        path:'/myBooking',
         element: <PrivateProvider><MyBookings></MyBookings></PrivateProvider>
       },
       

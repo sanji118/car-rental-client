@@ -4,19 +4,19 @@ import { ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-automotive-blue via-automotive-blue-dark to-purple-900 overflow-hidden">
+    <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-gray-500 to-black overflow-hidden">
       {/* Background Image Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1469041797191-50ace28483c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")'
+          backgroundImage: 'url("./bg.avif")'
         }}
       />
       
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-10 w-20 h-20 bg-white opacity-5 rounded-full animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-16 h-16 bg-automotive-gold opacity-10 rounded-full animate-bounce"></div>
+        <div className="absolute top-40 right-20 w-16 h-16 bg-yellow-100 opacity-10 rounded-full animate-pulse"></div>
         <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-white opacity-5 rounded-full animate-pulse delay-1000"></div>
       </div>
 
@@ -34,7 +34,7 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in delay-500">
           <Link to="/cars">
             <button  
-              className="bg-automotive-gold hover:bg-yellow-500 text-black font-semibold px-8 py-4 text-lg group transition-all duration-300 transform hover:scale-105"
+              className="btn bg-pink-500 border-none text-lg shadow-none transition-all duration-300 transform hover:scale-110"
             >
               View Available Cars
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -43,7 +43,7 @@ const HeroSection = () => {
           
           <Link to="/register">
             <button 
-              className="border-white text-white hover:bg-white hover:text-automotive-blue px-8 py-4 text-lg transition-all duration-300 transform hover:scale-105"
+              className="btn  hover:bg-gray-200 px-8 py-4 text-lg transition-all duration-300 transform hover:scale-110"
             >
               Get Started
             </button>
@@ -51,21 +51,21 @@ const HeroSection = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 animate-fade-in delay-700">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 my-16 animate-fade-in delay-700">
           <div className="text-center">
-            <div className="text-3xl font-bold text-automotive-gold">500+</div>
+            <div className="text-3xl font-bold text-pink-600">500+</div>
             <div className="text-gray-300 text-sm">Cars Available</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-automotive-gold">50k+</div>
+            <div className="text-3xl font-bold text-pink-600">50k+</div>
             <div className="text-gray-300 text-sm">Happy Customers</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-automotive-gold">25+</div>
+            <div className="text-3xl font-bold text-pink-600">25+</div>
             <div className="text-gray-300 text-sm">Locations</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-automotive-gold">24/7</div>
+            <div className="text-3xl font-bold text-pink-600">24/7</div>
             <div className="text-gray-300 text-sm">Support</div>
           </div>
         </div>
