@@ -1,10 +1,32 @@
 
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { motion } from "framer-motion";
 
 const HeroSection = () => {
+
+
+    const containerVariants = {
+        hidden: {},
+        visible: {
+            transition: {
+            staggerChildren: 0.4,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, scale: 0.8 },
+        visible: { 
+            opacity: 1, 
+            scale: 1,
+            transition: { type: "spring", stiffness: 100, damping: 10 }
+        },
+    };
+
+
   return (
-    <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-gray-500 to-black overflow-hidden">
+    <section className="relative flex items-center justify-center bg-gradient-to-br from-gray-500 to-black overflow-hidden">
       {/* Background Image Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
@@ -21,10 +43,20 @@ const HeroSection = () => {
       </div>
 
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 animate-fade-in">
-          Drive Your Dreams
-          <span className="block text-automotive-gold mt-2">Today!</span>
-        </h1>
+        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 animate-fade-in mt-10">
+            Drive Your Dreams
+            <motion.span
+                className="block mt-2"
+                initial={{opacity: 0}}
+                animate={{ 
+                    opacity: 1,
+                    color: ["#ff69b4", "#000000", "#ff69b4"] 
+                }}
+                transition={{ duration: 4, repeat: Infinity, repeatType: "loop" , ease: "easeInOut"}}
+            >
+                Today!
+            </motion.span>
+         </h1>
         
         <p className="text-xl sm:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto animate-fade-in delay-300">
           Experience the freedom of the road with our premium car rental service. 
@@ -51,24 +83,29 @@ const HeroSection = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 my-16 animate-fade-in delay-700">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-pink-600">500+</div>
-            <div className="text-gray-300 text-sm">Cars Available</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-pink-600">50k+</div>
-            <div className="text-gray-300 text-sm">Happy Customers</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-pink-600">25+</div>
-            <div className="text-gray-300 text-sm">Locations</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-pink-600">24/7</div>
-            <div className="text-gray-300 text-sm">Support</div>
-          </div>
-        </div>
+        <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 my-16"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            >
+            {[
+                { value: "500+", label: "Cars Available" },
+                { value: "50k+", label: "Happy Customers" },
+                { value: "25+", label: "Locations" },
+                { value: "24/7", label: "Support" },
+            ].map(({ value, label }, i) => (
+                <motion.div
+                key={i}
+                className="text-center"
+                variants={itemVariants}
+                >
+                <div className="text-3xl font-bold text-pink-600">{value}</div>
+                <div className="text-gray-300 text-sm">{label}</div>
+                </motion.div>
+            ))}
+        </motion.div>
+
       </div>
     </section>
   );

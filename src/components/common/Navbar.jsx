@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Car, Menu, X, User, LogOut } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import useAuth from '../../hooks/useAuth';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // This will be managed by auth context later
+  const {user} = useAuth() 
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -28,8 +28,8 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <Car className="h-8 w-8 text-automotive-blue" />
-              <span className="text-xl font-bold text-gray-900">DriveRental</span>
+              <Car className="h-8 w-8" />
+              <span className="text-xl font-bold text-pink-600">DriveRental</span>
             </Link>
           </div>
 
@@ -49,7 +49,7 @@ const Navbar = () => {
               </Link>
             ))}
 
-            {isLoggedIn && authenticatedNavigation.map((item) => (
+            {user && authenticatedNavigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
@@ -63,22 +63,22 @@ const Navbar = () => {
               </Link>
             ))}
 
-            {!isLoggedIn ? (
+            {!user ? (
               <div className="flex space-x-4">
                 <Link to="/login">
-                  <Button variant="outline" size="sm">
+                  <button className='btn btn-secondary'>
                     <User className="h-4 w-4 mr-2" />
                     Login
-                  </Button>
+                  </button>
                 </Link>
                 <Link to="/register">
-                  <Button size="sm" className="bg-automotive-blue hover:bg-automotive-blue-dark">
+                  <button className='btn btn-secondary'>
                     Register
-                  </Button>
+                  </button>
                 </Link>
               </div>
             ) : (
-              <Button 
+              <button 
                 variant="outline" 
                 size="sm"
                 onClick={() => setIsLoggedIn(false)}
@@ -86,7 +86,7 @@ const Navbar = () => {
               >
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
-              </Button>
+              </button>
             )}
           </div>
 
@@ -94,7 +94,7 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 hover:text-automotive-blue"
+              className="btn text-gray-700 hover:text-automotive-blue"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -111,8 +111,8 @@ const Navbar = () => {
                   to={item.href}
                   className={`block px-3 py-2 text-base font-medium transition-colors ${
                     isActive(item.href)
-                      ? 'text-automotive-blue bg-blue-50'
-                      : 'text-gray-700 hover:text-automotive-blue hover:bg-gray-50'
+                      ? 'text-black bg-pink-300'
+                      : ' hover:bg-pink-50'
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
@@ -120,7 +120,7 @@ const Navbar = () => {
                 </Link>
               ))}
 
-              {isLoggedIn && authenticatedNavigation.map((item) => (
+              {user && authenticatedNavigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
@@ -136,22 +136,22 @@ const Navbar = () => {
               ))}
 
               <div className="px-3 py-2 space-y-2">
-                {!isLoggedIn ? (
+                {!user ? (
                   <>
                     <Link to="/login" onClick={() => setIsOpen(false)}>
-                      <Button variant="outline" className="w-full justify-start">
+                      <button variant="outline" className="w-full justify-start hover:bg-pink-300 btn btn-secondary text-black">
                         <User className="h-4 w-4 mr-2" />
                         Login
-                      </Button>
+                      </button>
                     </Link>
                     <Link to="/register" onClick={() => setIsOpen(false)}>
-                      <Button className="w-full bg-automotive-blue hover:bg-automotive-blue-dark">
+                      <button className="w-full hover:bg-pink-300 btn btn-secondary mt-2 justify-start text-black">
                         Register
-                      </Button>
+                      </button>
                     </Link>
                   </>
                 ) : (
-                  <Button 
+                  <button 
                     variant="outline" 
                     className="w-full justify-start text-red-600 border-red-600 hover:bg-red-50"
                     onClick={() => {
@@ -161,7 +161,7 @@ const Navbar = () => {
                   >
                     <LogOut className="h-4 w-4 mr-2" />
                     Logout
-                  </Button>
+                  </button>
                 )}
               </div>
             </div>
