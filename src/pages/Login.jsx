@@ -48,8 +48,17 @@ const Login = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4 py-20">
       <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8 space-y-6">
-        <h2 className="text-3xl font-bold text-center text-purple-700">Sign in to your account</h2>
-        <p className="text-center text-gray-600">Welcome back! Please enter your details.</p>
+        <div className="text-center mb-10">
+          <div className="flex justify-center mb-4">
+            <div className="rounded-full bg-automotive-blue p-3">
+              <Car className="h-10 w-10 text-white" />
+            </div>
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900">Welcome back</h1>
+          <p className="mt-2 text-gray-600">
+            Sign in to your DriveRental account
+          </p>
+        </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
@@ -80,7 +89,7 @@ const Login = () => {
           </div>
 
 
-          <button type="submit" className="btn border-none w-full bg-purple-600 hover:bg-purple-700">
+          <button type="submit" className="btn border-none w-full bg-pink-500 hover:bg-pink-300">
             Sign in
           </button>
         </form>
@@ -94,7 +103,7 @@ const Login = () => {
 
         <p className="text-center text-sm text-gray-600">
           Don't have any account?
-          <Link to="/register" className="text-purple-600 font-semibold hover:underline">
+          <Link to="/register" className="text-pink-500 font-semibold hover:underline">
             Sign up
           </Link>
         </p>

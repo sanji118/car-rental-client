@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -113,7 +113,7 @@ const Register = () => {
 
           <button
             type="submit"
-            className="btn border-none w-full bg-purple-600 hover:bg-purple-700 text-white"
+            className="btn border-none w-full bg-pink-500 hover:bg-pink-300 text-white"
           >
             Sign up
           </button>
@@ -128,7 +128,7 @@ const Register = () => {
 
         <p className="text-center text-sm text-gray-600">
           Already have account?
-          <Link to="/login" className="text-purple-600 font-semibold hover:underline">
+          <Link to="/login" className="text-pink-500 font-semibold hover:underline">
             Login
           </Link>
         </p>
