@@ -1,12 +1,47 @@
 import { Clock, MapPin, Shield } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BookingModal from '../modals/BookingModal';
+import useAuth from '../../hooks/useAuth';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const CarDetails = ({car}) => {
+  const user = useAuth();
   const [openModal, setOpenModal] = useState(false);
   const [isBooking, setIsBooking] = useState(false);
+
+  useEffect(()=>{
+    const checkBooking = async()=>{
+      const res = await fetch(`http://localhost:5000/my-booking?email=${user.email}`,{
+        headers:{
+          'content-type': 'application/json'
+        }
+      });
+      if(res.data.insertedId){
+        toast.success('Booking successfully!')
+      }
+
+      
+      const data = await res.json();
+      const exists = data.find(item=> item.carId === car._id);
+      setIsBooking(!!exists)
+    }
+    checkBooking();
+
+  },[car._id, user?.email])
   const handleBooking = async () => {
+    const bookingData = {
+      userId: user?.uid,
+      userEmail: user?.email,
+      carModel: car.carModel,
+      imageUrl: car.imageUrl,
+      price: car.dailyRentalPrice,
+      bookingDate: new Date(),
+    }
     setOpenModal(true);
+    axios.post('http://localhost:5000/my-booking')
+    .then(res=> res.json())
+    .then(data =>console.log(data));
   };
   return (
     <div>

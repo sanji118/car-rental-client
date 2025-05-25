@@ -12,10 +12,7 @@ const MyCars = () => {
   const {user} = useAuth();
   const loadedCars = useLoaderData();
   const [cars, setCars] = useState(loadedCars);
-  const userCars = loadedCars.filter(car =>{
-     car.userEmail === user.email
-     setCars(car);
-    });
+  const userCars = cars.filter(car => car.userEmail === user.email);
   const [selectedCar, setSelectedCar] = useState(null);
   const [sortBy, setSortBy] = useState('date-newest');
 
