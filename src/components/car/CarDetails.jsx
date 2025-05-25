@@ -10,39 +10,45 @@ const CarDetails = ({car}) => {
   const [openModal, setOpenModal] = useState(false);
   const [isBooking, setIsBooking] = useState(false);
 
-  useEffect(()=>{
-    const checkBooking = async()=>{
-      const res = await fetch(`http://localhost:5000/my-booking?email=${user.email}`,{
-        headers:{
-          'content-type': 'application/json'
-        }
-      });
-      if(res.data.insertedId){
-        toast.success('Booking successfully!')
+  useEffect(() => {
+    const checkBooking = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/my-booking?email=${user.email}`);
+        const data = res.data;
+        const exists = data.find(item => item.carId === car._id?.toString());
+        setIsBooking(!!exists);
+      } catch (error) {
+        console.error('Error checking booking:', error);
       }
-
-      
-      const data = await res.json();
-      const exists = data.find(item=> item.carId === car._id);
-      setIsBooking(!!exists)
+    };
+    if (user?.email) {
+      checkBooking();
     }
-    checkBooking();
+  }, [car._id, user?.email]);
 
-  },[car._id, user?.email])
+
+
+
   const handleBooking = async () => {
     const bookingData = {
-      userId: user?.uid,
-      userEmail: user?.email,
+      carId: car._id.toString(),
       carModel: car.carModel,
       imageUrl: car.imageUrl,
       price: car.dailyRentalPrice,
-      bookingDate: new Date(),
+      bookingDate: new Date().toISOString(),
+      status: 'confirmed'
+    };
+
+    try {
+      await axios.post('http://localhost:5000/my-booking', bookingData);
+      toast.success('Booking successful');
+    } catch (error) {
+      console.error('Booking failed:', error);
+      toast.error('Booking failed');
     }
-    setOpenModal(true);
-    axios.post('http://localhost:5000/my-booking')
-    .then(res=> res.json())
-    .then(data =>console.log(data));
   };
+
+
   return (
     <div>
       <h1 className="text-xl font-bold text-gray-900 mb-2">{car.carModel}</h1>
