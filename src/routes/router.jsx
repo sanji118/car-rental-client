@@ -31,11 +31,13 @@ const router = createBrowserRouter([
       },
       {
         path:'/myCars',
-        element:<PrivateProvider><MyCars/></PrivateProvider>
+        element:<PrivateProvider><MyCars/></PrivateProvider>,
+        loader: cars
       },
       {
         path: '/cars/:id',
-        element: <CarDetails></CarDetails>
+        element: <CarDetails></CarDetails>,
+        loader : (params)=> fetch(`http://localhost:5000/cars/${params.id}`)
       },
       {
         path: '/cars',

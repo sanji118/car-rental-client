@@ -1,68 +1,35 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft, Car } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { ArrowLeft, Car, XCircle } from 'lucide-react';
 import axios from 'axios';
+import { Link } from 'react-router';
 
-const AddCar = () => {
-  const [formData, setFormData] = useState({
-    carModel: '',
-    dailyRentalPrice: '',
-    availability: true,
-    vehicleRegistrationNumber: '',
-    location: '',
-    imageUrl: '',
-    features: '',
-    description: '',
-    date: new Date()
-  });
+const UpdateModal = ({ car, onClose, onSave }) => {
+  const [formData, setFormData] = useState({ ...car });
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    let newValue = value;
-    if (name === 'availability') {
-      newValue = value === 'true';
-    }
-    setFormData({
-      ...formData,
-      [name]: newValue
-    });
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleAddCar = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { carModel, dailyRentalPrice, vehicleRegistrationNumber, location, imageUrl } = formData;
-    if (!carModel || !dailyRentalPrice || !vehicleRegistrationNumber || !location || !imageUrl) {
-      toast.warn('Please fill in all required fields marked with *.');
-      return;
-    }
-
-
-
-
-    const response = await axios.post('http://localhost:5000/cars',{
-      ...formData,
-      features: formData.features.split(",").map(f=> f.trim())
-    });
-    if(response.status === 201 || response.status === 200){
-      toast.success("Car added successfully")
-      setFormData({
-        carModel: '',
-        dailyRentalPrice: '',
-        availability: true,
-        vehicleRegistrationNumber: '',
-        location: '',
-        imageUrl: '',
-        features: '',
-        description: ''
-      })
-    }else{
-      toast.error("Failed to add car. Please try again.")
+    setLoading(true);
+    try {
+      const response = await axios.put(`http://localhost:5000/cars/${car._id}`, formData);
+      onSave(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
-
+  console.log(car)
   return (
-    <div className="max-w-4xl mx-auto p-4">
+    <dialog open className='modal modal-open'><div className="modal-box max-w-2xl mx-auto p-4">
+        <button onClick={onClose} className="absolute right-4 top-4 text-gray-500 hover:text-gray-800">
+          <XCircle size={22} />
+        </button>
       {/* Header */}
       <div className="flex items-center mb-4">
         <Link to="/" className="flex items-center text-pink-500 hover:text-pink-700">
@@ -75,13 +42,13 @@ const AddCar = () => {
           <Car className='w-10 h-10' />
         </div>
         <div>
-          <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold pt-5">Add New Car</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold pt-5">Update Your Information</h1>
           <p className="text-gray-500 mb-6">Add a car to your rental inventory</p>
         </div>
       </div>
 
       {/* Form */}
-      <form onSubmit={handleAddCar} className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6 rounded-lg shadow">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6 rounded-lg shadow">
         {/* Car Model */}
         <div className="flex flex-col">
           <label className="font-medium mb-1">Car Model *</label>
@@ -126,15 +93,18 @@ const AddCar = () => {
           <label className="font-medium mb-1">Description</label>
           <textarea rows="4" name="description" value={formData.description} onChange={handleChange} placeholder="Describe the car's condition, special features, or any additional information..." className="border p-2 rounded" />
         </div>
-        {/* Add Car Button */}
-        <div className="md:col-span-2 flex justify-end">
-          <button type="submit" className="btn btn-secondary shadow-none">
-            + Add Car
-          </button>
+        <div className="modal-action col-span-1 md:col-span-2 justify-end">
+            <button type="submit" className="btn btn-secondary" disabled={loading}>
+                {loading ? 'Saving...' : 'Save Changes'}
+            </button>
+            <button type="button" onClick={onClose} className="btn">
+                Cancel
+            </button>
         </div>
       </form>
-    </div>
+    </div></dialog>
   );
+
 };
 
-export default AddCar;
+export default UpdateModal;
