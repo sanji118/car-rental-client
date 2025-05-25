@@ -12,6 +12,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import NotFound from '../pages/NotFound';
 import axios from 'axios';
+import CarDetailsPage from '../pages/CarDetailsPage';
 
 
 
@@ -37,9 +38,12 @@ const router = createBrowserRouter([
       },
       {
         path: '/cars/:id',
-        element: <CarDetails></CarDetails>,
-        loader : (params)=> fetch(`http://localhost:5000/cars/${params.id}`)
+        element: <CarDetailsPage />,
+        loader: async ({ params }) => {
+          return fetch(`http://localhost:5000/cars/${params.id}`);
+        },
       },
+
       {
         path: '/cars',
         element: <AvailableCars></AvailableCars>,

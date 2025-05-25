@@ -27,7 +27,7 @@ const CarCard = ({car, index}) => {
           </span>
         </div>
         <div className="absolute top-4 left-4">
-          <span className="bg-automotive-blue text-white px-3 py-1 rounded-full text-sm font-medium">
+          <span className="bg-pink-500 text-white px-3 py-1 rounded-full text-sm font-medium">
             ${car.dailyRentalPrice}/day
           </span>
         </div>
@@ -71,7 +71,7 @@ const CarCard = ({car, index}) => {
           )}
         </div>
 
-        <Link to={`/cars/${car.id}`}>
+        <Link to={`/cars/${car._id}`}>
           <button 
             className="w-full bg-pink-500 btn hover:bg-pink-300"
             disabled={car.availability !== true}
