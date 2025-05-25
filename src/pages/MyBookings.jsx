@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaTrash, FaCalendarAlt } from 'react-icons/fa';
 import ConfirmModal from '../components/modals/ConfirmModal';
 import EditCarModal from '../components/modals/EditCarModal';
+
+
 
 const MyBookings = () => {
   const [bookings, setBookings] = useState([]);

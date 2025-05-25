@@ -4,9 +4,13 @@ import BookingModal from '../modals/BookingModal';
 import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import axios from '../../../axiosConfig.js';
+import React from 'react';
 
 const CarDetails = ({car}) => {
-  const user = useAuth();
+  const {user, token} = useAuth();
+  console.log(user.userEmail);
+  console.log(token);
   const [openModal, setOpenModal] = useState(false);
   const [isBooking, setIsBooking] = useState(false);
 
@@ -40,7 +44,11 @@ const CarDetails = ({car}) => {
     };
 
     try {
-      await axios.post('http://localhost:5000/my-booking', bookingData);
+      await axios.post('http://localhost:5000/my-booking', bookingData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       toast.success('Booking successful');
     } catch (error) {
       console.error('Booking failed:', error);

@@ -18,7 +18,8 @@ const AvailableCars = () => {
     // Filter based on search input
     const filtered = filteredAvailable.filter(car =>
       car.carModel?.toLowerCase().includes(searchText.toLowerCase()) ||
-      car.category?.toLowerCase().includes(searchText.toLowerCase())
+      car.category?.toLowerCase().includes(searchText.toLowerCase()) ||
+      car.location?.toLowerCase().includes(searchText.toLowerCase())
     );
 
     // Sort the filtered cars
@@ -47,7 +48,7 @@ const AvailableCars = () => {
           {/* Search Input */}
           <input
             type="text"
-            placeholder="Search by model, category..."
+            placeholder="Search by model, category, location..."
             className="input input-bordered w-full md:max-w-sm"
             value={searchText}
             onChange={e => setSearchText(e.target.value)}
