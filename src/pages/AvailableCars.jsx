@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import CarCard from '../components/car/CarCard';
+import CarCard from '../components/common/CarCard';
 import { useLoaderData } from 'react-router-dom';
 import { FaList, FaTh } from 'react-icons/fa';
-import CarCardMenu from '../components/car/CarCardMenu';
+import CarCardMenu from '../components/common/CarCardMenu';
 
 const AvailableCars = () => {
   const loadedCars = useLoaderData();

@@ -23,7 +23,7 @@ const CarNotFoundPage = () => {
 
       <button
         onClick={() => navigate("/cars")}
-        className="btn bg-pink-600 hover:bg-pink-700 text-black font-bold px-8 py-3 rounded-full shadow-lg transition duration-300"
+        className="btn bg-pink-600 border-none hover:bg-pink-700 text-black font-bold px-8 py-3 rounded-full shadow-lg transition duration-300"
       >
         Browse Cars
       </button>

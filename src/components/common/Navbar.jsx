@@ -16,7 +16,7 @@ const Navbar = () => {
   const authenticatedNavigation = [
     { name: 'Add Car', href: '/addCars' },
     { name: 'My Cars', href: '/myCars' },
-    { name: 'My Bookings', href: '/myBookings' },
+    { name: 'My Bookings', href: '/my-booking' },
   ];
 
   const isActive = (path) => location.pathname === path;

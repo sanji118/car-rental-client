@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import CarCard from './components/car/CarCard';
+import CarCard from './components/common/CarCard';
 
 const RecentListings = () => {
   const [cars, setCars] = useState([]);
