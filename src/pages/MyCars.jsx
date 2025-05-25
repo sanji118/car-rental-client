@@ -5,20 +5,28 @@ import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import UpdateModal from '../components/modals/UpdateModal';
+import { format } from 'date-fns';
+import useAuth from '../hooks/useAuth';
 
 const MyCars = () => {
+  const {user} = useAuth();
   const loadedCars = useLoaderData();
   const [cars, setCars] = useState(loadedCars);
+  const userCars = loadedCars.filter(car =>{
+     car.userEmail === user.email
+     setCars(car);
+    });
   const [selectedCar, setSelectedCar] = useState(null);
   const [sortBy, setSortBy] = useState('date-newest');
 
   const sortCars = (criteria) => {
     const sorted = [...cars];
-    if (criteria === 'date-newest') sorted.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-    if (criteria === 'date-oldest') sorted.sort((a, b) => new Date(a.dateAdded) - new Date(b.dateAdded));
+    if (criteria === 'date-newest') sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
+    if (criteria === 'date-oldest') sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
     if (criteria === 'price-lowest') sorted.sort((a, b) => a.dailyRentalPrice - b.dailyRentalPrice);
     if (criteria === 'price-highest') sorted.sort((a, b) => b.dailyRentalPrice - a.dailyRentalPrice);
     setCars(sorted);
+    console.log(sorted)
     setSortBy(criteria);
   };
 
@@ -89,7 +97,7 @@ const MyCars = () => {
             </tr>
           </thead>
           <tbody>
-            {cars.map(car => (
+            {userCars?.map(car => (
               <tr key={car._id}>
                 <td>
                   <img src={car.imageUrl} alt="car" className="w-16 h-12 object-cover rounded" />
@@ -102,7 +110,7 @@ const MyCars = () => {
                     {car.availability}
                   </span>
                 </td>
-                <td>{car.date}</td>
+                <td>{format(car.date, 'dd/MM/yyyy')}</td>
                 <td className="flex gap-2">
                   <button onClick={() => setSelectedCar(car)} className="btn btn-sm btn-secondary">
                     <Edit size={16} />

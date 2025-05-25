@@ -1,8 +1,10 @@
 import { Calendar, MapPin } from 'lucide-react';
 import { Link } from 'react-router';
+import { format } from 'date-fns';
 
 
 const CarCard = ({car, index}) => {
+  const formattedDate = format(car.date, 'd MMMM, yyyy')
   return (
     <div 
       key={car._id}
@@ -46,7 +48,7 @@ const CarCard = ({car, index}) => {
         <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
           <div className="flex items-center">
             <Calendar className="h-4 w-4 mr-1" />
-            Added {car.date}
+            Added {formattedDate}
           </div>
           <div>
             {car.bookingCount} bookings

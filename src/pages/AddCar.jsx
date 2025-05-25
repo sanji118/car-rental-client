@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Car } from 'lucide-react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import useAuth from '../hooks/useAuth';
 
 const AddCar = () => {
+  const {user} = useAuth()
   const [formData, setFormData] = useState({
     carModel: '',
     dailyRentalPrice: '',
@@ -14,6 +16,7 @@ const AddCar = () => {
     imageUrl: '',
     features: '',
     description: '',
+    userEmail: user.email,
     date: new Date()
   });
 
