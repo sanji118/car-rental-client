@@ -30,7 +30,6 @@ const CarDetails = ({car}) => {
 
 
   const handleBooking = async () => {
-    setOpenModal(true);
     const bookingData = {
       carId: car._id.toString(),
       carModel: car.carModel,
@@ -40,7 +39,7 @@ const CarDetails = ({car}) => {
       status: 'confirmed',
       email: user.email
     };
-
+    setOpenModal(true);
     try {
       await axios.post('http://localhost:5000/my-booking', bookingData, {
         withCredentials: true

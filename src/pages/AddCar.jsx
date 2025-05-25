@@ -52,20 +52,18 @@ const AddCar = () => {
       return;
     }
 
-
-
-
-    const response = await axios.post('http://localhost:5000/cars',{
+    const response = await axios.post('http://localhost:5000/cars', {
       ...formData,
-      features: formData.features.split(",").map(f=> f.trim())
-    },
-    {
+      features: formData.features.split(",").map(f => f.trim()),
+      bookingCount: 0,
+      bookingStatus: "pending"
+    }, {
       withCredentials: true
-    }
-  );
+    });
+
     if(response.status === 201 || response.status === 200){
       toast.success("Car added successfully");
-      navigate('/myCars')
+      navigate('/myCars');
       setFormData({
         carModel: '',
         dailyRentalPrice: '',
@@ -79,10 +77,11 @@ const AddCar = () => {
         displayName: user.displayName || (user.email ? user.email.split('@')[0] : ''),
         date: new Date()
       });
-    }else{
-      toast.error("Failed to add car. Please try again.")
+    } else {
+      toast.error("Failed to add car. Please try again.");
     }
   };
+
   console.log(formData);
 
   return (

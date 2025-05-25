@@ -24,15 +24,15 @@ const BookingTable = ({bookings, setEditingBooking, setShowCancelModal}) => {
                   index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                 } hover:shadow transition-shadow`}
               >
-                <td className="p-2">
+                <td className="p-2 align-middle">
                   <img
                     src={booking.imageUrl}
                     alt={booking.carModel}
                     className="w-20 rounded"
                   />
                 </td>
-                <td className="p-2">{booking.carModel}</td>
-                <td className="p-2">
+                <td className="p-2 align-middle">{booking.carModel}</td>
+                <td className="p-2 align-middle">
                   {new Date(booking.bookingDate).toLocaleString('en-GB', {
                     day: '2-digit',
                     month: '2-digit',
@@ -41,25 +41,39 @@ const BookingTable = ({bookings, setEditingBooking, setShowCancelModal}) => {
                     minute: '2-digit',
                   })}
                 </td>
-                <td className="p-2">${booking.price}</td>
-                <td className="p-2">{booking.status || 'Confirmed'}</td>
-                <td className="p-2 flex gap-2">
-                  <button
-                    onClick={() => setEditingBooking(booking)}
-                    className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
+                <td className="p-2 align-middle">${booking.price}</td>
+                <td className="p-2 align-middle">
+                  <span
+                    className={`inline-block px-2 py-1 text-sm font-semibold rounded ${
+                      booking.status === 'confirmed'
+                        ? 'bg-green-500 text-white'
+                        : 'bg-yellow-500 text-white'
+                    }`}
                   >
-                    <FaCalendarAlt /> Modify Date
-                  </button>
-                  <button
-                    onClick={() => setShowCancelModal(booking)}
-                    className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
-                  >
-                    <FaTrash /> Cancel
-                  </button>
+                    {booking.status || 'Confirmed'}
+                  </span>
+                </td>
+                <td className="p-2 align-middle">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setEditingBooking(booking)}
+                      className="flex items-center gap-1 border border-blue-600 text-blue-600 hover:bg-blue-50 px-3 py-1 rounded"
+                    >
+                      <FaCalendarAlt /> Modify Date
+                    </button>
+                    <button
+                      onClick={() => setShowCancelModal(booking)}
+                      className="flex items-center gap-1 border border-red-600 text-red-600 hover:bg-red-50 px-3 py-1 rounded"
+                    >
+                      <FaTrash /> Cancel
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
+
+
         </table>
     </div>
   )

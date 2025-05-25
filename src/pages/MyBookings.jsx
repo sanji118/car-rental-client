@@ -6,6 +6,7 @@ import EditCarModal from '../components/modals/EditCarModal';
 import axios from 'axios';
 import BookingTable from '../components/booking/BookingTable';
 import useAuth from '../hooks/useAuth';
+import CarNotFoundPage from '../components/car/CarNotFoundPage';
 
 
 
@@ -61,13 +62,24 @@ const MyBookings = () => {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-semibold mb-4">My Bookings</h2>
-      <div className="overflow-x-auto">
-        <BookingTable bookings={bookings} setEditingBooking={setEditingBooking} setShowCancelModal={setShowCancelModal} ></BookingTable>
-      </div>
+      {
+        bookings.length === 0? (
+          <CarNotFoundPage></CarNotFoundPage>
+        ):(
+          <div className="overflow-x-auto">
+            <BookingTable bookings={bookings} setEditingBooking={setEditingBooking} setShowCancelModal={setShowCancelModal} ></BookingTable>
+          </div>
+        )
+      }
 
       {/* Modify Date Modal */}
       {editingBooking && (
-        <EditCarModal handleModifyDate={handleModifyDate} setEditingBooking={setEditingBooking} newDate={newDate} editingBooking={editingBooking} ></EditCarModal>
+        <EditCarModal 
+        handleModifyDate={handleModifyDate} setEditingBooking={setEditingBooking} 
+        newDate={newDate} 
+        editingBooking={editingBooking}
+        setNewDate={setNewDate} 
+        ></EditCarModal>
       )}
 
       {/* Cancel Confirmation Modal */}

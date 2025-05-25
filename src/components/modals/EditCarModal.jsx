@@ -1,7 +1,7 @@
 import React from 'react'
 import DatePicker from 'react-datepicker'
 
-const EditCarModal = ({newDate, editingBooking,setEditingBooking, handleModifyDate}) => {
+const EditCarModal = ({newDate, editingBooking,setEditingBooking, handleModifyDate , setNewDate}) => {
   return (
     <div className="fixed inset-0 backdrop-blur-xs flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded shadow-lg w-96">
