@@ -95,7 +95,7 @@ const CarDetails = ({ car }) => {
         isOpen={openModal}
         onClose={() => {
           setOpenModal(false);
-          checkBooking();  // Refresh booking status when modal closes
+          checkBooking();  
         }}
       />
     </div>

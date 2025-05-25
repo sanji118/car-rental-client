@@ -1,72 +1,55 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-const EditCarModal = ({ newDate, editingBooking, setEditingBooking,  setNewDate }) => {
-  const [newPrice, setNewPrice] = useState(editingBooking?.price || 0);
-  const [newStatus, setNewStatus] = useState(editingBooking?.status || 'confirmed');
-
-  const handleModifyBooking = async (id, newDate, newPrice, newStatus) => {
-    try {
-      await axios.put(`http://localhost:5000/my-booking/${id}`, {
-        bookingDate: newDate,
-        price: newPrice,
-        status: newStatus,
-      });
-      setBookings((prev) =>
-        prev.map((b) =>
-          b._id === id ? { ...b, bookingDate: newDate, price: newPrice, status: newStatus } : b
-        )
-      );
-      setEditingBooking(null);
-    } catch (error) {
-      console.error('Error updating booking:', error);
+const EditCarModal = ({ editingBooking, setEditingBooking, startDate, setStartDate, endDate, setEndDate, handleModifyDate }) => {
+  
+  const onConfirm = () => {
+    if (startDate > endDate) {
+      alert("Start date cannot be after end date.");
+      return;
     }
+    handleModifyDate(editingBooking._id);
   };
 
-
   return (
-    <div className="fixed inset-0 backdrop-blur-xs flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded shadow-lg w-96">
-        <h3 className="text-lg font-bold mb-4">Modify Booking</h3>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white rounded-lg p-6 w-96">
+        <h3 className="text-lg font-semibold mb-4">Modify Booking Dates</h3>
 
-        <label>Date:</label>
+        <label className="block mb-2 font-medium">Start Date</label>
         <DatePicker
-          selected={newDate}
-          onChange={(date) => setNewDate(date)}
-          showTimeSelect
-          dateFormat="Pp"
-          className="border px-2 py-1 w-full mb-4"
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+          selectsStart
+          startDate={startDate}
+          endDate={endDate}
+          dateFormat="yyyy-MM-dd"
+          className="border p-2 rounded w-full"
         />
 
-        <label>Total Price:</label>
-        <input
-          type="number"
-          value={newPrice}
-          onChange={(e) => setNewPrice(Number(e.target.value))}
-          className="border px-2 py-1 w-full mb-4"
+        <label className="block mb-2 font-medium mt-4">End Date</label>
+        <DatePicker
+          selected={endDate}
+          onChange={(date) => setEndDate(date)}
+          selectsEnd
+          startDate={startDate}
+          endDate={endDate}
+          minDate={startDate}
+          dateFormat="yyyy-MM-dd"
+          className="border p-2 rounded w-full"
         />
 
-        <label>Status:</label>
-        <select
-          value={newStatus}
-          onChange={(e) => setNewStatus(e.target.value)}
-          className="border px-2 py-1 w-full mb-4"
-        >
-          <option value="confirmed">Confirmed</option>
-          <option value="canceled">Canceled</option>
-          <option value="completed">Completed</option>
-        </select>
-
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-4 mt-6">
           <button
             onClick={() => setEditingBooking(null)}
-            className="px-4 py-1 bg-gray-300 hover:bg-gray-400 rounded"
+            className="px-4 py-2 rounded border border-gray-400"
           >
             Cancel
           </button>
           <button
-            onClick={() => handleModifyBooking(editingBooking._id, newDate, newPrice, newStatus)}
-            className="px-4 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded"
+            onClick={onConfirm}
+            className="px-4 py-2 rounded bg-blue-600 text-white"
           >
             Confirm
           </button>

@@ -23,8 +23,13 @@ const CarCardMenu = ({ car }) => {
       </div>
       <div className="flex flex-col items-end gap-3 self-stretch justify-between">
         <span className="text-xl font-bold text-white bg-pink-500 px-4 py-2 rounded-full">${car.dailyRentalPrice}/day</span>
-        <Link to={`/cars/${car._id}`} className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded">
-          View Details
+        <Link to={`/cars/${car._id}`}>
+          <button 
+            className="w-full bg-pink-500 btn hover:bg-pink-300"
+            disabled={car.availability !== true}
+          >
+            {car.availability === true ? 'Book Now' : 'Currently Booked'}
+          </button>
         </Link>
       </div>
     </div>

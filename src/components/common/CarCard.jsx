@@ -3,6 +3,19 @@ import { Link } from 'react-router';
 import { format } from 'date-fns';
 
 
+
+
+const getDaysAgo = (dateString) => {
+  const dateAdded = new Date(dateString);
+  const now = new Date();
+  const diffTime = Math.abs(now - dateAdded);
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) return "Added today";
+  if (diffDays === 1) return "Added yesterday";
+  return `Added ${diffDays} days ago`;
+};
+
 const CarCard = ({car, index}) => {
   const formattedDate = format(car.date, 'd MMMM, yyyy')
   return (
@@ -48,7 +61,7 @@ const CarCard = ({car, index}) => {
         <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
           <div className="flex items-center">
             <Calendar className="h-4 w-4 mr-1" />
-            Added {formattedDate}
+            {getDaysAgo(car.date)}
           </div>
           <div>
             {car.bookingCount} bookings
@@ -76,7 +89,7 @@ const CarCard = ({car, index}) => {
             className="w-full bg-pink-500 btn hover:bg-pink-300"
             disabled={car.availability !== true}
           >
-            {car.availability === true ? 'View Details' : 'Currently Booked'}
+            {car.availability === true ? 'Book Now' : 'Currently Booked'}
           </button>
         </Link>
       </div>
