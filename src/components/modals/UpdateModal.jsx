@@ -24,7 +24,6 @@ const UpdateModal = ({ car, onClose, onSave }) => {
       setLoading(false);
     }
   };
-  console.log(car)
   return (
     <dialog open className='modal modal-open'><div className="modal-box max-w-2xl mx-auto p-4">
         <button onClick={onClose} className="absolute right-4 top-4 text-gray-500 hover:text-gray-800">

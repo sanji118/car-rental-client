@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { use, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Car } from 'lucide-react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
 
 const AddCar = () => {
-  const {user} = useAuth()
+  const {user} = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     carModel: '',
     dailyRentalPrice: '',
@@ -16,9 +17,20 @@ const AddCar = () => {
     imageUrl: '',
     features: '',
     description: '',
-    userEmail: user.email,
+    userEmail: '',
+    displayName: '',
     date: new Date()
   });
+  
+  useEffect(()=>{
+    if(user){
+      setFormData(prev =>({
+        ...prev,
+        userEmail: user.email || '',
+        displayName: user.displayName || (user.email ? user.email.split('@')[0] : '') 
+      }))
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,9 +58,14 @@ const AddCar = () => {
     const response = await axios.post('http://localhost:5000/cars',{
       ...formData,
       features: formData.features.split(",").map(f=> f.trim())
-    });
+    },
+    {
+      withCredentials: true
+    }
+  );
     if(response.status === 201 || response.status === 200){
-      toast.success("Car added successfully")
+      toast.success("Car added successfully");
+      navigate('/myCars')
       setFormData({
         carModel: '',
         dailyRentalPrice: '',
@@ -57,12 +74,16 @@ const AddCar = () => {
         location: '',
         imageUrl: '',
         features: '',
-        description: ''
-      })
+        description: '',
+        userEmail: user.email,
+        displayName: user.displayName || (user.email ? user.email.split('@')[0] : ''),
+        date: new Date()
+      });
     }else{
       toast.error("Failed to add car. Please try again.")
     }
   };
+  console.log(formData);
 
   return (
     <div className="max-w-4xl mx-auto p-4">

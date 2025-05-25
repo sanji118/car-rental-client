@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ConfirmModal = ({handleCancelBooking, setShowCancelModal}) => {
+const ConfirmModal = ({handleCancelBooking, setShowCancelModal, showCancelModal}) => {
   return (
     <div className="fixed inset-0 backdrop-blur-xs flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded shadow-lg w-96">

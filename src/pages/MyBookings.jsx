@@ -3,24 +3,34 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { FaTrash, FaCalendarAlt } from 'react-icons/fa';
 import ConfirmModal from '../components/modals/ConfirmModal';
 import EditCarModal from '../components/modals/EditCarModal';
+import axios from 'axios';
+import BookingTable from '../components/booking/BookingTable';
+import useAuth from '../hooks/useAuth';
 
 
 
 const MyBookings = () => {
+  const {token} = useAuth();
+  console.log(token)
+  const [refresh, setRefresh] = useState(false);
   const [bookings, setBookings] = useState([]);
   const [editingBooking, setEditingBooking] = useState(null);
   const [newDate, setNewDate] = useState(new Date());
   const [showCancelModal, setShowCancelModal] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/my-booking')
+    axios.get('http://localhost:5000/my-booking', {
+      withCredentials: true
+    })
       .then((res) => setBookings(res.data))
       .catch((err) => console.error('Error fetching bookings:', err));
-  }, []);
+  }, [refresh]);
 
   const handleCancelBooking = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/my-booking/${id}`);
+      await axios.delete(`http://localhost:5000/my-booking/${id}`,{
+        withCredentials: true
+      });
       setBookings((prev) =>
         prev.map((b) =>
           b._id === id ? { ...b, status: 'Canceled' } : b
@@ -52,62 +62,7 @@ const MyBookings = () => {
     <div className="p-6">
       <h2 className="text-2xl font-semibold mb-4">My Bookings</h2>
       <div className="overflow-x-auto">
-        <table className="min-w-full table-auto border-collapse shadow">
-          <thead>
-            <tr className="bg-gray-200 text-left font-bold">
-              <th className="p-2">Car Image</th>
-              <th className="p-2">Car Model</th>
-              <th className="p-2">Booking Date</th>
-              <th className="p-2">Total Price</th>
-              <th className="p-2">Status</th>
-              <th className="p-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.map((booking, index) => (
-              <tr
-                key={booking._id}
-                className={`${
-                  index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                } hover:shadow transition-shadow`}
-              >
-                <td className="p-2">
-                  <img
-                    src={booking.imageUrl}
-                    alt={booking.carModel}
-                    className="w-20 rounded"
-                  />
-                </td>
-                <td className="p-2">{booking.carModel}</td>
-                <td className="p-2">
-                  {new Date(booking.bookingDate).toLocaleString('en-GB', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </td>
-                <td className="p-2">${booking.price}</td>
-                <td className="p-2">{booking.status || 'Confirmed'}</td>
-                <td className="p-2 flex gap-2">
-                  <button
-                    onClick={() => setEditingBooking(booking)}
-                    className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
-                  >
-                    <FaCalendarAlt /> Modify Date
-                  </button>
-                  <button
-                    onClick={() => setShowCancelModal(booking)}
-                    className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
-                  >
-                    <FaTrash /> Cancel
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <BookingTable bookings={bookings} setEditingBooking={setEditingBooking} setShowCancelModal={setShowCancelModal} ></BookingTable>
       </div>
 
       {/* Modify Date Modal */}
@@ -117,7 +72,7 @@ const MyBookings = () => {
 
       {/* Cancel Confirmation Modal */}
       {showCancelModal && (
-        <ConfirmModal handleCancelBooking={handleCancelBooking} setShowCancelModal={setShowCancelModal}></ConfirmModal>
+        <ConfirmModal handleCancelBooking={handleCancelBooking} setShowCancelModal={setShowCancelModal} showCancelModal={showCancelModal} ></ConfirmModal>
       )}
     </div>
   );

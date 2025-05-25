@@ -4,13 +4,9 @@ import BookingModal from '../modals/BookingModal';
 import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import axios from '../../../axiosConfig.js';
-import React from 'react';
 
 const CarDetails = ({car}) => {
   const {user, token} = useAuth();
-  console.log(user.userEmail);
-  console.log(token);
   const [openModal, setOpenModal] = useState(false);
   const [isBooking, setIsBooking] = useState(false);
 
@@ -34,27 +30,29 @@ const CarDetails = ({car}) => {
 
 
   const handleBooking = async () => {
+    setOpenModal(true);
     const bookingData = {
       carId: car._id.toString(),
       carModel: car.carModel,
       imageUrl: car.imageUrl,
       price: car.dailyRentalPrice,
       bookingDate: new Date().toISOString(),
-      status: 'confirmed'
+      status: 'confirmed',
+      email: user.email
     };
 
     try {
       await axios.post('http://localhost:5000/my-booking', bookingData, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        withCredentials: true
       });
       toast.success('Booking successful');
+      setIsBooking(true);
     } catch (error) {
       console.error('Booking failed:', error);
       toast.error('Booking failed');
     }
   };
+
 
 
   return (
@@ -103,10 +101,11 @@ const CarDetails = ({car}) => {
               <button  
                 onClick={handleBooking}
                 disabled={car.availability !== true || isBooking}
-                className=" btn w-full bg-pink-500 hover:bg-pink-700"
+                className="btn w-full bg-pink-500 hover:bg-pink-700"
               >
                 {isBooking ? 'Booking...' : car.availability === true ? 'Book Now' : 'Currently Unavailable'}
               </button>
+
               <p className="text-xs text-gray-500 text-center">
                 Free cancellation up to 24 hours before pickup
               </p>

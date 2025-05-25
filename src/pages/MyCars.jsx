@@ -1,20 +1,24 @@
-import { useLoaderData } from 'react-router-dom';
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { Edit, Trash2, PlusCircle } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import UpdateModal from '../components/modals/UpdateModal';
 import { format } from 'date-fns';
-import useAuth from '../hooks/useAuth';
 
 const MyCars = () => {
-  const {user} = useAuth();
-  const loadedCars = useLoaderData();
-  const [cars, setCars] = useState(loadedCars);
-  const userCars = cars.filter(car => car.userEmail === user.email);
+  const [cars, setCars] = useState([]);
   const [selectedCar, setSelectedCar] = useState(null);
   const [sortBy, setSortBy] = useState('date-newest');
+
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/my-cars', { withCredentials: true })
+      .then(res => setCars(res.data))
+      .catch(() => toast.error('Failed to load your cars'));
+  }, []);
 
   const sortCars = (criteria) => {
     const sorted = [...cars];
@@ -23,7 +27,6 @@ const MyCars = () => {
     if (criteria === 'price-lowest') sorted.sort((a, b) => a.dailyRentalPrice - b.dailyRentalPrice);
     if (criteria === 'price-highest') sorted.sort((a, b) => b.dailyRentalPrice - a.dailyRentalPrice);
     setCars(sorted);
-    console.log(sorted)
     setSortBy(criteria);
   };
 
@@ -36,12 +39,13 @@ const MyCars = () => {
       confirmButtonText: 'Delete',
       confirmButtonColor: '#d33'
     });
+
     if (result.isConfirmed) {
       try {
         await axios.delete(`http://localhost:5000/cars/${id}`);
         setCars(prev => prev.filter(car => car._id !== id));
         toast.success('Car deleted successfully');
-      } catch (err) {
+      } catch {
         toast.error('Error deleting car');
       }
     }
@@ -52,9 +56,9 @@ const MyCars = () => {
       <div className="text-center py-20">
         <h2 className="text-3xl font-semibold">No Cars Added</h2>
         <p className="text-gray-500 mb-4">Add your first car to get started.</p>
-        <a href="/add-car" className="btn btn-secondary">
+        <Link to="/addCars" className="btn btn-secondary">
           <PlusCircle className="w-4 h-4 mr-2" /> Add Car
-        </a>
+        </Link>
       </div>
     );
   }
@@ -66,9 +70,9 @@ const MyCars = () => {
           <h2 className="text-3xl font-bold">My Cars</h2>
           <p className="text-sm text-gray-500">Manage your car inventory</p>
         </div>
-        <a href="/add-car" className="btn btn-secondary">
+        <Link to="/addCars" className="btn btn-secondary">
           <PlusCircle className="w-4 h-4 mr-2" /> Add New Car
-        </a>
+        </Link>
       </div>
 
       <div className="mb-4 flex gap-4">
@@ -94,7 +98,7 @@ const MyCars = () => {
             </tr>
           </thead>
           <tbody>
-            {userCars?.map(car => (
+            {cars.map(car => (
               <tr key={car._id}>
                 <td>
                   <img src={car.imageUrl} alt="car" className="w-16 h-12 object-cover rounded" />
@@ -103,11 +107,11 @@ const MyCars = () => {
                 <td>${car.dailyRentalPrice}/day</td>
                 <td>{car.bookingCount || 0}</td>
                 <td>
-                  <span className={`badge ${car.availability === true ? 'badge-success' : 'badge-error'}`}>
-                    {car.availability}
+                  <span className={`badge ${car.availability ? 'badge-success' : 'badge-error'}`}>
+                    {car.availability ? 'Available' : 'Unavailable'}
                   </span>
                 </td>
-                <td>{format(car.date, 'dd/MM/yyyy')}</td>
+                <td>{format(new Date(car.date), 'dd/MM/yyyy')}</td>
                 <td className="flex gap-2">
                   <button onClick={() => setSelectedCar(car)} className="btn btn-sm btn-secondary">
                     <Edit size={16} />

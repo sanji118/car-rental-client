@@ -15,17 +15,14 @@ const AuthProvider = ({children}) => {
 
   const setUserAndToken = async (firebaseUser) =>{
     if(!firebaseUser?.email) return;
+
     const res = await axios.post('http://localhost:5000/jwt', {
       email: firebaseUser.email
     });
-
-    const jwtToken = res.data.token;
-    localStorage.setItem('token', jwtToken);
-    setToken(jwtToken);
-
+    setToken(res.data.token)
     setUser({
-      userEmail: firebaseUser.email,
-      userName : firebaseUser.displayName || firebaseUser.email.split('@')[0]
+      email: firebaseUser.email,
+      displayName: firebaseUser.displayName || firebaseUser.email.split('@')[0]
     });
   }
 

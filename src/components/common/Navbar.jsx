@@ -2,11 +2,23 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Car, Menu, X, User, LogOut } from 'lucide-react';
 import useAuth from '../../hooks/useAuth';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const {user} = useAuth() 
+  const {user, signOutUser} = useAuth() 
+
+
+  const logout = () => {
+    signOutUser()
+      .then(() => {
+        toast.success("Logged out successfully");
+      })
+      .catch(() => {
+        toast.error("Logout failed!");
+      });
+  };
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -81,8 +93,8 @@ const Navbar = () => {
               <button 
                 variant="outline" 
                 size="sm"
-                onClick={() => setIsLoggedIn(false)}
-                className="text-red-600 border-red-600 hover:bg-red-50"
+                onClick={logout}
+                className="text-red-600 btn bg-white border-red-600 hover:bg-red-50"
               >
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
@@ -152,12 +164,8 @@ const Navbar = () => {
                   </>
                 ) : (
                   <button 
-                    variant="outline" 
-                    className="w-full justify-start text-red-600 border-red-600 hover:bg-red-50"
-                    onClick={() => {
-                      setIsLoggedIn(false);
-                      setIsOpen(false);
-                    }}
+                    className="w-full justify-start text-red-600 border border-red-600 hover:bg-red-50"
+                    onClick={logout}
                   >
                     <LogOut className="h-4 w-4 mr-2" />
                     Logout
