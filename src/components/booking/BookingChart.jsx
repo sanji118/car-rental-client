@@ -97,10 +97,10 @@ export default class BookingChart extends PureComponent {
       const res = await axios.get("http://localhost:5000/my-booking", {
         withCredentials: true,
       });
-      // Map backend data into {name, value} format
+      
       const chartData = res.data.map((booking) => ({
         name: booking.carModel,
-        value: Number(booking.dailyRentalPrice),
+        value: Number(booking.price),
       }));
       this.setState({ data: chartData, loading: false });
     } catch (error) {

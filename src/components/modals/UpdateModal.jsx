@@ -19,7 +19,7 @@ const UpdateModal = ({ car, onClose, onSave }) => {
       const response = await axios.put(`http://localhost:5000/cars/${car._id}`, formData);
       onSave(response.data);
     } catch (error) {
-      console.error(error);
+      //console.error(error);
     } finally {
       setLoading(false);
     }

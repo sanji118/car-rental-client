@@ -1,22 +1,16 @@
-import { useLocation, Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import {  Link, useNavigate } from "react-router-dom";
+
 import { Home, ArrowLeft, Car } from "lucide-react";
 
 const NotFound = () => {
-  const location = useLocation();
   const navigate = useNavigate()
 
-  useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
-  }, [location.pathname]);
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-automotive-blue via-automotive-blue-dark to-purple-900">
       <div className="text-center px-4 sm:px-6 lg:px-8 max-w-lg mx-auto">
-        {/* 404 Animation */}
+        
         <div className="mb-8">
           <div className="relative">
             <h1 className="text-9xl font-bold text-white opacity-20 animate-pulse">404</h1>

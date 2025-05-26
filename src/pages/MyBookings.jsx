@@ -9,7 +9,7 @@ import BookingChart from '../components/booking/BookingChart';
 
 const MyBookings = () => {
   const { token } = useAuth();
-  console.log(token)
+  //console.log(token)
   const [bookings, setBookings] = useState([]);
   const [editingBooking, setEditingBooking] = useState(null);
   const [showCancelModal, setShowCancelModal] = useState(null);
@@ -21,45 +21,32 @@ const MyBookings = () => {
     axios
       .get('http://localhost:5000/my-booking', { withCredentials: true })
       .then((res) => setBookings(res.data))
-      .catch((err) => console.error('Error fetching bookings:', err));
   }, [refresh]);
 
   const handleModifyDate = async (id) => {
-    try {
-      await axios.patch(`http://localhost:5000/my-booking/${id}`, { startDate, endDate }, { withCredentials: true });
-      setBookings((prev) =>
-        prev.map((b) => (b._id === id ? { ...b, startDate, endDate } : b))
-      );
-      setEditingBooking(null);
-    } catch (error) {
-      console.error('Error updating booking dates:', error);
-    }
+    await axios.patch(`http://localhost:5000/my-booking/${id}`, { startDate, endDate }, { withCredentials: true });
+    setBookings((prev) =>
+      prev.map((b) => (b._id === id ? { ...b, startDate, endDate } : b))
+    );
+    setEditingBooking(null);
   };
 
   const handleCancelBooking = async (id) => {
-      try {
-          const response = await axios.patch(`http://localhost:5000/my-booking/${id}/cancel`);
-          if(response.ok) {
-              setBookings((prev) => 
-                  prev.map((booking) => 
-                      booking._id === id ? { ...booking, status: "cancelled" } : booking
-                  )
-              );
-              setShowCancelModal(null);
-          }
-      } catch (error) {
-          console.error("Error cancelling booking:", error);
-      }
+    const response = await axios.patch(`http://localhost:5000/my-booking/${id}/cancel`);
+    if(response.status === 200 || response.status === 204) {
+        setBookings((prev) => 
+            prev.map((booking) => 
+                booking._id === id ? { ...booking, status: "cancelled" } : booking
+            )
+        );
+        setShowCancelModal(null);
+    }  
   };
 
 
   const handleRemoveBooking = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/my-booking/${id}`, { withCredentials: true });
-      setBookings((prev) => prev.filter((b) => b._id !== id));
-    } catch (error) {
-      console.error('Error removing booking:', error);
-    }
+    await axios.delete(`http://localhost:5000/my-booking/${id}`, { withCredentials: true });
+    setBookings((prev) => prev.filter((b) => b._id !== id));
   };
 
   const confirmedCount = bookings.filter(b => b.status === 'confirmed').length;
@@ -68,7 +55,7 @@ const MyBookings = () => {
     <div className="p-6">
       <div>
         {
-          bookings.length !== 0 && <BookingChart></BookingChart>
+          bookings.length !== 0 && <div className='my-10'><BookingChart></BookingChart></div>
         }
       </div>
       <h2 className="text-2xl font-semibold mb-4">

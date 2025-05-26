@@ -1,4 +1,4 @@
-import { Clock, MapPin, Shield } from 'lucide-react';
+import {  Shield } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import BookingModal from '../modals/BookingModal';
 import useAuth from '../../hooks/useAuth';
@@ -9,20 +9,17 @@ const CarDetails = ({ car }) => {
   const { user } = useAuth();
   const [openModal, setOpenModal] = useState(false);
   const [isBooking, setIsBooking] = useState(false);
-  const [loadingBooking, setLoadingBooking] = useState(false); // For button text
+  const [loadingBooking, setLoadingBooking] = useState(false); 
 
-  // Function to check if the car is already booked by the user
+
+
   const checkBooking = async () => {
-    try {
       const res = await axios.get(`http://localhost:5000/my-booking?email=${user.email}`, {
         withCredentials: true
       });
       const data = res.data;
       const exists = data.find(item => item.carId === car._id?.toString() && item.status !== 'Canceled');
       setIsBooking(!!exists);
-    } catch (error) {
-      console.error('Error checking booking:', error);
-    }
   };
 
   useEffect(() => {
@@ -50,11 +47,10 @@ const CarDetails = ({ car }) => {
         setIsBooking(true); 
       }
     } catch (error) {
-      console.error('Booking failed:', error);
       toast.error('Booking failed');
     } finally {
       setLoadingBooking(false);
-      setOpenModal(true);  // Show confirmation modal after server response
+      setOpenModal(true);
     }
   };
 

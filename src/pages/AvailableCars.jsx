@@ -12,17 +12,16 @@ const AvailableCars = () => {
   const [sortedCars, setSortedCars] = useState([]);
 
   useEffect(() => {
-    // Filter only available cars
     const filteredAvailable = loadedCars.filter(car => car.availability === true);
 
-    // Filter based on search input
+    
     const filtered = filteredAvailable.filter(car =>
       car.carModel?.toLowerCase().includes(searchText.toLowerCase()) ||
       car.category?.toLowerCase().includes(searchText.toLowerCase()) ||
       car.location?.toLowerCase().includes(searchText.toLowerCase())
     );
 
-    // Sort the filtered cars
+    
     let sorted = [...filtered];
     if (sortType === 'date-newest') {
       sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -34,7 +33,6 @@ const AvailableCars = () => {
       sorted.sort((a, b) => b.rent - a.rent);
     }
 
-    // Update displayed cars
     setSortedCars(sorted);
   }, [loadedCars, searchText, sortType]);
 
@@ -56,7 +54,7 @@ const AvailableCars = () => {
 
           {/* Sorting and View Buttons */}
           <div className="flex items-center gap-3">
-            {/* Sort Dropdown */}
+            
             <select
               className="select select-bordered"
               onChange={e => setSortType(e.target.value)}
