@@ -15,7 +15,7 @@ const MyCars = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/my-cars', { withCredentials: true })
+      .get('https://car-rental-server-eta.vercel.app/my-cars', { withCredentials: true })
       .then(res => setCars(res.data))
       .catch(() => toast.error('Failed to load your cars'));
   }, []);
@@ -42,7 +42,7 @@ const MyCars = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:5000/cars/${id}`);
+        await axios.delete(`https://car-rental-server-eta.vercel.app/cars/${id}`);
         setCars(prev => prev.filter(car => car._id !== id));
         toast.success('Car deleted successfully');
       } catch {

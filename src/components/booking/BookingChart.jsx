@@ -94,7 +94,7 @@ export default class BookingChart extends PureComponent {
 
   fetchBookingData = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/my-booking", {
+      const res = await axios.get("https://car-rental-server-eta.vercel.app/my-booking", {
         withCredentials: true,
       });
       
@@ -104,7 +104,7 @@ export default class BookingChart extends PureComponent {
       }));
       this.setState({ data: chartData, loading: false });
     } catch (error) {
-      console.error("Error fetching booking data:", error);
+      //console.error("Error fetching booking data:", error);
       this.setState({ loading: false });
     }
   };

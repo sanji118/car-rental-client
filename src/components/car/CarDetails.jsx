@@ -14,7 +14,7 @@ const CarDetails = ({ car }) => {
 
 
   const checkBooking = async () => {
-      const res = await axios.get(`http://localhost:5000/my-booking?email=${user.email}`, {
+      const res = await axios.get(`https://car-rental-server-eta.vercel.app/my-booking?email=${user.email}`, {
         withCredentials: true
       });
       const data = res.data;
@@ -40,7 +40,7 @@ const CarDetails = ({ car }) => {
       email: user.email
     };
     try {
-      const res = await axios.post('http://localhost:5000/my-booking', bookingData, {
+      const res = await axios.post('https://car-rental-server-eta.vercel.app/my-booking', bookingData, {
         withCredentials: true
       });
       if (res.data) {

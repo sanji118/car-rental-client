@@ -19,12 +19,12 @@ const MyBookings = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/my-booking', { withCredentials: true })
+      .get('https://car-rental-server-eta.vercel.app/my-booking', { withCredentials: true })
       .then((res) => setBookings(res.data))
   }, [refresh]);
 
   const handleModifyDate = async (id) => {
-    await axios.patch(`http://localhost:5000/my-booking/${id}`, { startDate, endDate }, { withCredentials: true });
+    await axios.patch(`https://car-rental-server-eta.vercel.app/my-booking/${id}`, { startDate, endDate }, { withCredentials: true });
     setBookings((prev) =>
       prev.map((b) => (b._id === id ? { ...b, startDate, endDate } : b))
     );
@@ -32,7 +32,7 @@ const MyBookings = () => {
   };
 
   const handleCancelBooking = async (id) => {
-    const response = await axios.patch(`http://localhost:5000/my-booking/${id}/cancel`);
+    const response = await axios.patch(`https://car-rental-server-eta.vercel.app/my-booking/${id}/cancel`);
     if(response.status === 200 || response.status === 204) {
         setBookings((prev) => 
             prev.map((booking) => 
@@ -45,7 +45,7 @@ const MyBookings = () => {
 
 
   const handleRemoveBooking = async (id) => {
-    await axios.delete(`http://localhost:5000/my-booking/${id}`, { withCredentials: true });
+    await axios.delete(`https://car-rental-server-eta.vercel.app/my-booking/${id}`, { withCredentials: true });
     setBookings((prev) => prev.filter((b) => b._id !== id));
   };
 

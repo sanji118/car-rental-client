@@ -16,7 +16,7 @@ const AuthProvider = ({children}) => {
   const setUserAndToken = async (firebaseUser) =>{
     if(!firebaseUser?.email) return;
 
-    const res = await axios.post('http://localhost:5000/jwt', {
+    const res = await axios.post('https://car-rental-server-eta.vercel.app/jwt', {
       email: firebaseUser.email
     });
     setToken(res.data.token)

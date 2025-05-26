@@ -17,7 +17,7 @@ import CarDetailsPage from '../pages/CarDetailsPage';
 
 
 
-const cars = () => fetch('http://localhost:5000/cars')
+const cars = () => fetch('https://car-rental-server-eta.vercel.app/cars')
 const router = createBrowserRouter([
   {
     path: "/",
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
         path: '/cars/:id',
         element: <CarDetailsPage />,
         loader: async ({ params }) => {
-          return fetch(`http://localhost:5000/cars/${params.id}`);
+          return fetch(`https://car-rental-server-eta.vercel.app/cars/${params.id}`);
         },
       },
 
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
       {
         path:'/my-booking',
         element: <PrivateProvider><MyBookings></MyBookings></PrivateProvider>,
-        loader: ()=> fetch('http://localhost:5000/my-booking')
+        loader: ()=> fetch('https://car-rental-server-eta.vercel.app/my-booking')
       },
       
     ]

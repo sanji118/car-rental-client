@@ -9,7 +9,7 @@ const RecentListings = () => {
   const [cars, setCars] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/recently-added')
+    fetch('https://car-rental-server-eta.vercel.app/recently-added')
       .then(res => res.json())
       .then(data => setCars(data));
   }, []);

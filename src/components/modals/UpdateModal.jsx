@@ -16,7 +16,7 @@ const UpdateModal = ({ car, onClose, onSave }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.put(`http://localhost:5000/cars/${car._id}`, formData);
+      const response = await axios.put(`https://car-rental-server-eta.vercel.app/cars/${car._id}`, formData);
       onSave(response.data);
     } catch (error) {
       //console.error(error);

@@ -52,7 +52,7 @@ const AddCar = () => {
       return;
     }
 
-    const response = await axios.post('http://localhost:5000/cars', {
+    const response = await axios.post('https://car-rental-server-eta.vercel.app/cars', {
       ...formData,
       features: formData.features.split(",").map(f => f.trim()),
       bookingCount: 0,
@@ -82,7 +82,7 @@ const AddCar = () => {
     }
   };
 
-  console.log(formData);
+  //console.log(formData);
 
   return (
     <div className="max-w-4xl mx-auto p-4">
