@@ -47,8 +47,7 @@ const CarDetails = ({ car }) => {
         withCredentials: true
       });
       if (res.data) {
-        toast.success('Booking successful!');
-        setIsBooking(true);  // Button disables immediately after booking confirmation
+        setIsBooking(true); 
       }
     } catch (error) {
       console.error('Booking failed:', error);

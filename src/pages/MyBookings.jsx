@@ -5,6 +5,7 @@ import EditCarModal from '../components/modals/EditCarModal'
 import useAuth from '../hooks/useAuth';
 import CarNotFoundPage from '../components/car/CarNotFoundPage';
 import ConfirmModal from '../components/modals/ConfirmModal';
+import BookingChart from '../components/booking/BookingChart';
 
 const MyBookings = () => {
   const { token } = useAuth();
@@ -65,6 +66,11 @@ const MyBookings = () => {
 
   return (
     <div className="p-6">
+      <div>
+        {
+          bookings.length !== 0 && <BookingChart></BookingChart>
+        }
+      </div>
       <h2 className="text-2xl font-semibold mb-4">
         My Bookings <span className="ml-2 text-green-600">({confirmedCount} confirmed)</span>
       </h2>
