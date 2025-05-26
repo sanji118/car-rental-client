@@ -50,10 +50,10 @@ const AuthProvider = ({children}) => {
 
           axios.post('https://car-rental-server-eta.vercel.app/jwt', user, { withCredentials: true })
           .then(res => {
-            console.log('login token', res.data);
+           // console.log('login token', res.data);
           })
           .catch(err => {
-            console.error('JWT request failed', err);
+            //console.error('JWT request failed', err);
           })
           .finally(() => {
             setLoading(false);
@@ -63,10 +63,10 @@ const AuthProvider = ({children}) => {
                 withCredentials: true
             })
             .then(res => {
-              console.log('login token', res.data);
+              //console.log('login token', res.data);
             })
             .catch(err => {
-              console.error('JWT request failed', err);
+              //console.error('JWT request failed', err);
             })
             .finally(() => {
               setLoading(false);

@@ -30,7 +30,7 @@ const CarDetails = ({ car }) => {
         setIsBooking(true); 
       }
     } catch (error) {
-      toast.error('Booking failed');
+      //console.log('Booking failed');
     } finally {
       setLoadingBooking(false);
       setOpenModal(true);
@@ -42,10 +42,9 @@ const CarDetails = ({ car }) => {
         withCredentials: true,
       });
       const data = res.data;
-      console.log(data);
+      //console.log(data);
       const exists = data.find(item => item.carId === car._id?.toString() && item.status !== 'Canceled');
       setIsBooking(!!exists);
-      console.log(token)
   };
 
   useEffect(() => {
