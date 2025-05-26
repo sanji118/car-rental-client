@@ -1,6 +1,4 @@
 import {  useLoaderData, useNavigate } from "react-router-dom";
-import {  useState } from "react";
-import BookingModal from "../components/modals/BookingModal";
 import CarNotFoundPage from "../components/car/CarNotFoundPage";
 import { ArrowLeft } from "lucide-react";
 import CarDetails from "../components/car/CarDetails";

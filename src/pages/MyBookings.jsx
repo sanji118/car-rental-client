@@ -19,7 +19,7 @@ const MyBookings = () => {
 
   useEffect(() => {
     axios
-      .get('https://car-rental-server-eta.vercel.app/my-booking', { withCredentials: true })
+      .get('https://car-rental-server-eta.vercel.app/my-booking', { withCredentials: true})
       .then((res) => setBookings(res.data))
   }, [refresh]);
 

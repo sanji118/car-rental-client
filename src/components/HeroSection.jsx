@@ -2,8 +2,10 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { motion } from "framer-motion";
+import useAuth from '../hooks/useAuth';
 
 const HeroSection = () => {
+  const {user} = useAuth();
 
 
     const containerVariants = {
@@ -73,7 +75,7 @@ const HeroSection = () => {
             </button>
           </Link>
           
-          <Link to="/register">
+          <Link to={user? "/cars" :  "/register"}>
             <button 
               className="btn  hover:bg-gray-200 px-8 py-4 text-lg transition-all duration-300 transform hover:scale-110"
             >

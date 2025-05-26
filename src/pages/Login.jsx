@@ -8,6 +8,7 @@ import useAuth from '../hooks/useAuth';
 import { Car } from 'lucide-react';
 
 const Login = () => {
+  const {user} = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const {signInWithGoogle,signIn} = useAuth();
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const Login = () => {
     })
     .catch(error =>{
       const errorMessage = error.message;
+      toast.error(errorMessage);
       // console.log(errorMessage);
     })
   }

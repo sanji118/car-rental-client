@@ -4,30 +4,12 @@ import BookingModal from '../modals/BookingModal';
 import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
 const CarDetails = ({ car }) => {
   const { user } = useAuth();
   const [openModal, setOpenModal] = useState(false);
   const [isBooking, setIsBooking] = useState(false);
   const [loadingBooking, setLoadingBooking] = useState(false); 
-
-
-
-  const checkBooking = async () => {
-      const res = await axios.get(`https://car-rental-server-eta.vercel.app/my-booking?email=${user.email}`, {
-        withCredentials: true
-      });
-      const data = res.data;
-      const exists = data.find(item => item.carId === car._id?.toString() && item.status !== 'Canceled');
-      setIsBooking(!!exists);
-  };
-
-  useEffect(() => {
-    if (user?.email) {
-      checkBooking();
-    }
-  }, [car._id, user?.email]);
-
+  
   const handleBooking = async () => {
     setLoadingBooking(true);
     const bookingData = {
@@ -41,8 +23,9 @@ const CarDetails = ({ car }) => {
     };
     try {
       const res = await axios.post('https://car-rental-server-eta.vercel.app/my-booking', bookingData, {
-        withCredentials: true
-      });
+        withCredentials: true,
+      })
+      .then(res => console.log(res.data))
       if (res.data) {
         setIsBooking(true); 
       }
@@ -53,6 +36,25 @@ const CarDetails = ({ car }) => {
       setOpenModal(true);
     }
   };
+
+  const checkBooking = async () => {
+      const res = await axios.get(`https://car-rental-server-eta.vercel.app/my-booking?email=${user.email}`, {
+        withCredentials: true,
+      });
+      const data = res.data;
+      console.log(data);
+      const exists = data.find(item => item.carId === car._id?.toString() && item.status !== 'Canceled');
+      setIsBooking(!!exists);
+      console.log(token)
+  };
+
+  useEffect(() => {
+    if (user?.email) {
+      checkBooking();
+    }
+  }, [car._id, user?.email]);
+
+  
 
   return (
     <div>
