@@ -60,7 +60,7 @@ const Register = () => {
       <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8 space-y-6">
         <h2 className="text-3xl font-bold text-center text-purple-700">Create your account</h2>
         <p className="text-center text-gray-600">
-          Join our gaming community and start sharing your reviews!
+          Join our rental community and start sharing your cars!
         </p>
 
         <form onSubmit={handleRegister} className="space-y-4">
